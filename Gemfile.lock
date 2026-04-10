@@ -322,8 +322,6 @@ DEPENDENCIES
   rails (~> 7.2.3, >= 7.2.3.1)
   rubocop
   rubocop-factory_bot
-  rubocop-performance
-  rubocop-rails
   rubocop-rails-omakase
   rubocop-rspec
   stimulus-rails
