@@ -1,8 +1,32 @@
-# Omakase Ruby styling for Rails
-inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+inherit_gem:
+  rubocop-rails-omakase: rubocop.yml
 
-# Overwrite or add rules to create your own house style
-#
-# # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
-# Layout/SpaceInsideArrayLiteralBrackets:
-#   Enabled: false
+# オマカセには含まれていない RSpec 用のプラグインを追加
+plugins:
+  - rubocop-rspec
+  - rubocop-factory_bot
+
+AllCops:
+  # 新ルールを有効化
+  NewCops: enable
+  TargetRubyVersion: 3.3
+  TargetRailsVersion: 7.2
+  # オマカセの除外設定に加え、解析不要なディレクトリを明示
+  Exclude:
+    - "vendor/**/*"
+    - "db/**/*"
+    - "bin/**/*"
+    - "tmp/**/*"
+    - "node_modules/**/*"
+
+# 1つのテスト(it)の中に記述できる検証(expect)の数をチェック
+RSpec/MultipleExpectations:
+  Max: 5
+
+# ブロックのネストの深さをチェック
+RSpec/NestedGroups:
+  Max: 4
+
+# letやsubjectをブロックの先頭に書くことを強制するルールを無効化
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
