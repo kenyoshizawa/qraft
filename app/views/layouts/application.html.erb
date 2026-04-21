@@ -20,8 +20,12 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
-      <%= yield %>
+    <%= render "layouts/header" %>
+
+    <main class="container mx-auto px-5">
+      <div class="flex justify-center min-h-screen items-start">
+        <%= yield %>
+      </div>
     </main>
   </body>
 </html>
