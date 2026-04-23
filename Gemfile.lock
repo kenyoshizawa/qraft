@@ -187,6 +187,7 @@ GEM
     pg (1.6.3-x86_64-darwin)
     pg (1.6.3-x86_64-linux)
     pg (1.6.3-x86_64-linux-musl)
+    phonelib (0.10.18)
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
@@ -369,6 +370,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   pg (~> 1.1)
+  phonelib
   propshaft
   puma (>= 5.0)
   rails (~> 7.2.3, >= 7.2.3.1)
