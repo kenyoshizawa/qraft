@@ -1,42 +1,148 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<%# app/views/devise/registrations/edit.html.erb %>
+<% provide(:title, "Edit Account") %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<div class="bg-slate-50 flex items-start justify-center p-4 font-sans">
+  <div class="w-[448px] max-w-full space-y-8 bg-white rounded-xl shadow-lg border border-slate-100 p-8">
+    <div class="text-center">
+      <h2 class="text-2xl font-bold text-slate-800 mb-2 tracking-tight">
+        アカウント編集
+      </h2>
+    </div>
 
-  <div class="field">
-    <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
-  </div>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "space-y-6" }) do |f| %>
+      <div>
+        <%= f.label :name, "社員名", class: "block text-sm font-semibold text-slate-700 mb-2" %>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <%= f.text_field :name,
+                autocomplete: "name",
+                class: "block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a0e9] focus:border-[#00a0e9] transition-colors duration-200 bg-slate-50 focus:bg-white" %>
+        </div>
+        <% if resource.errors[:name].any? %>
+          <p class="text-red-500 text-xs mt-1 font-semibold"><%= resource.errors.full_messages_for(:name).first %></p>
+        <% end %>
+      </div>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
+      <div>
+        <%= f.label :name_kana, "社員名（カナ）", class: "block text-sm font-semibold text-slate-700 mb-2" %>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <%= f.text_field :name_kana,
+                autocomplete: "off",
+                class: "block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a0e9] focus:border-[#00a0e9] transition-colors duration-200 bg-slate-50 focus:bg-white" %>
+        </div>
+        <% if resource.errors[:name_kana].any? %>
+          <p class="text-red-500 text-xs mt-1 font-semibold"><%= resource.errors.full_messages_for(:name_kana).first %></p>
+        <% end %>
+      </div>
 
-  <div class="field">
-    <p><%= f.label :password %> <i>(leave blank if you don't want to change it)</i></p>
-    <p><%= f.password_field :password, autocomplete: "new-password" %></p>
-    <% if @minimum_password_length %>
-      <p><em><%= @minimum_password_length %> characters minimum</em></p>
+      <div>
+        <%= f.label :phone, "電話番号", class: "block text-sm font-semibold text-slate-700 mb-2" %>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+            </svg>
+          </div>
+          <%= f.telephone_field :phone,
+                autocomplete: "tel",
+                class: "block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a0e9] focus:border-[#00a0e9] transition-colors duration-200 bg-slate-50 focus:bg-white" %>
+        </div>
+        <% if resource.errors[:phone].any? %>
+          <p class="text-red-500 text-xs mt-1 font-semibold"><%= resource.errors.full_messages_for(:phone).first %></p>
+        <% end %>
+      </div>
+
+      <div>
+        <%= f.label :email, "メールアドレス", class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5 mb-2" %>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+            </svg>
+          </div>
+          <%= f.email_field :email,
+                autofocus: true,
+                autocomplete: "email",
+                class: "block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a0e9] focus:border-[#00a0e9] transition-colors duration-200 bg-slate-50 focus:bg-white" %>
+        </div>
+        <% if resource.errors[:email].any? %>
+          <p class="text-red-500 text-xs mt-1 font-semibold"><%= resource.errors.full_messages_for(:email).first %></p>
+        <% end %>
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <p class="mt-2 text-sm text-amber-600">確認待ちのメールアドレス: <%= resource.unconfirmed_email %></p>
+        <% end %>
+      </div>
+
+      <div>
+        <div class="flex items-baseline justify-between mb-2">
+          <%= f.label :password, "新しいパスワード", class: "block text-sm font-semibold text-slate-700" %>
+          <% if @minimum_password_length %>
+            <span class="text-xs text-slate-500"><%= @minimum_password_length %>文字以上</span>
+          <% end %>
+        </div>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <%= f.password_field :password,
+                autocomplete: "new-password",
+                class: "block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a0e9] focus:border-[#00a0e9] transition-colors duration-200 bg-slate-50 focus:bg-white" %>
+        </div>
+        <% if resource.errors[:password].any? %>
+          <p class="text-red-500 text-xs mt-1 font-semibold"><%= resource.errors.full_messages_for(:password).first %></p>
+        <% end %>
+      </div>
+
+      <div>
+        <%= f.label :password_confirmation, "新しいパスワード（確認）", class: "block text-sm font-semibold text-slate-700 mb-2" %>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <%= f.password_field :password_confirmation,
+                autocomplete: "new-password",
+                class: "block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a0e9] focus:border-[#00a0e9] transition-colors duration-200 bg-slate-50 focus:bg-white" %>
+        </div>
+        <% if resource.errors[:password_confirmation].any? %>
+          <p class="text-red-500 text-xs mt-1 font-semibold"><%= resource.errors.full_messages_for(:password_confirmation).first %></p>
+        <% end %>
+      </div>
+
+      <div>
+        <%= f.label :current_password, "現在のパスワード", class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5 mb-2" %>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <%= f.password_field :current_password,
+                autocomplete: "current-password",
+                class: "block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a0e9] focus:border-[#00a0e9] transition-colors duration-200 bg-slate-50 focus:bg-white" %>
+        </div>
+        <% if resource.errors[:current_password].any? %>
+          <p class="text-red-500 text-xs mt-1 font-semibold"><%= resource.errors.full_messages_for(:current_password).first %></p>
+        <% end %>
+      </div>
+
+      <div class="pt-4">
+        <%= f.submit "更新する",
+              class: "w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-md text-white bg-[#00a0e9] hover:bg-[#008ccc] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00a0e9] transition-colors duration-200 shadow-sm" %>
+      </div>
     <% end %>
   </div>
-
-  <div class="field">
-    <p><%= f.label :password_confirmation %></p>
-    <p><%= f.password_field :password_confirmation, autocomplete: "new-password" %></p>
-  </div>
-
-  <div class="field">
-    <p><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i></p>
-    <p><%= f.password_field :current_password, autocomplete: "current-password" %></p>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>
+</div>
