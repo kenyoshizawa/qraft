@@ -144,5 +144,22 @@
               class: "w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-md text-white bg-[#00a0e9] hover:bg-[#008ccc] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00a0e9] transition-colors duration-200 shadow-sm" %>
       </div>
     <% end %>
+
+    <div class="mt-8 pt-6 border-t border-slate-200">
+      <div class="bg-amber-50 rounded-lg p-6 border border-amber-100">
+        <h3 class="text-lg font-semibold text-amber-900 mb-2">アカウントの無効化</h3>
+        <div class="text-sm text-amber-800 mb-5">
+          <p class="mb-2 font-medium">このアカウントを無効化すると、以下の状態になります：</p>
+          <ul class="list-disc list-outside space-y-1 ml-4">
+            <li>このアカウントではログインできなくなります</li>
+            <li>このアカウントで作成した見積書は保持されます</li>
+          </ul>
+        </div>
+        <%= button_to "このアカウントを無効化する", deactivate_user_registration_path,
+              data: { turbo_method: :delete, turbo_confirm: "無効化すると、このアカウントではログインできなくなります。実行しますか？" },
+              method: :patch,
+              class: "w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors duration-200 shadow-sm" %>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,0 +1,4 @@
+ja:
+  devise:
+    failure:
+      retired_account: "このアカウントは無効化されており利用できません。"
