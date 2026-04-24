@@ -23,6 +23,8 @@ class User < ApplicationRecord
     format: { with: VALID_NAME_KANA_REGEX, message: "は全角カタカナで入力してください" },
     allow_blank: true
 
+  validates :phone, phone: { possible: true, countries: :jp }, phone_format: true, allow_blank: true
+
   def active_for_authentication?
     super && !retired?
   end
