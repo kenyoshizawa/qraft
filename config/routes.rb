@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: {
+    registrations: "users/registrations"
+  }
+  devise_scope :user do
+    patch "users/deactivate", to: "users/registrations#deactivate", as: :deactivate_user_registration
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

@@ -1,0 +1,62 @@
+<% provide(:title, "Log in") %>
+
+<div class="bg-slate-50 flex items-start justify-center p-4 font-sans">
+  <div class="w-[448px] max-w-full space-y-8 bg-white rounded-xl shadow-lg border border-slate-100 p-8">
+    <div class="text-center">
+      <h2 class="text-2xl font-bold text-slate-800 mb-2 tracking-tight">
+        ログイン
+      </h2>
+    </div>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+      <div>
+        <%= f.label :email, "メールアドレス", class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5 mb-2" %>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+            </svg>
+          </div>
+          <%= f.email_field :email,
+                autofocus: true,
+                autocomplete: "email",
+                class: "block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a0e9] focus:border-[#00a0e9] transition-colors duration-200 bg-slate-50 focus:bg-white" %>
+        </div>
+      </div>
+
+      <div>
+        <%= f.label :password, "パスワード", class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5 mb-2" %>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <%= f.password_field :password,
+                autocomplete: "current-password",
+                class: "block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a0e9] focus:border-[#00a0e9] transition-colors duration-200 bg-slate-50 focus:bg-white" %>
+        </div>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="flex items-center">
+          <%= f.check_box :remember_me, class: "h-4 w-4 text-[#00a0e9] border-slate-300 rounded" %>
+          <%= f.label :remember_me, "ログイン状態を保持する", class: "ml-2 block text-sm text-slate-700" %>
+        </div>
+      <% end %>
+
+      <div class="pt-4">
+        <%= f.submit "ログイン",
+              class: "w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-md text-white bg-[#00a0e9] hover:bg-[#008ccc] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00a0e9] transition-colors duration-200 shadow-sm" %>
+      </div>
+    <% end %>
+
+    <div class="mt-6 text-center [&_p]:inline">
+      <span class="text-sm mr-1 text-gray-600">
+        アカウントをお持ちでない方
+      </span>
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>
