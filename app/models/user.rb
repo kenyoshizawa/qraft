@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  belongs_to :company, optional: true
+
   enum role: { general: 0, admin: 1, retired: 2 }
 
   VALID_NAME_REGEX = /\A[^\p{blank}]+ [^\p{blank}]+\z/
