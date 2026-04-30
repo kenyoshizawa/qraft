@@ -19,14 +19,18 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+<body class="bg-gray-50 text-gray-900">
     <%= render "layouts/header" %>
 
-    <main class="container mx-auto px-5">
-      <%= render "layouts/flash" %>
-      <div class="flex justify-center min-h-screen items-start">
-        <%= yield %>
-      </div>
-    </main>
+    <div class="flex min-h-screen">
+      <%= render "layouts/navbar" %>
+
+      <main class="flex-1 container mx-auto px-5 py-6">
+        <%= render "layouts/flash" %>
+        <div class="flex justify-center items-start">
+          <%= yield %>
+        </div>
+      </main>
+    </div>
   </body>
 </html>
