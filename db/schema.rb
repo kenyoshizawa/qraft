@@ -15,12 +15,12 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_30_073620) do
   enable_extension "plpgsql"
 
   create_table "companies", force: :cascade do |t|
-    t.string "name"
-    t.string "name_kana"
-    t.string "postal_code"
-    t.string "address"
-    t.string "phone"
-    t.string "fax"
+    t.string "name", null: false
+    t.string "name_kana", null: false
+    t.string "postal_code", null: false
+    t.string "address", null: false
+    t.string "phone", null: false
+    t.string "fax", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
