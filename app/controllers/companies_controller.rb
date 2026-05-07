@@ -1,4 +1,6 @@
 class CompaniesController < ApplicationController
+  before_action :set_company, only: %i[ edit update ]
+
   def new
     @company = Company.new
   end
@@ -18,9 +20,18 @@ class CompaniesController < ApplicationController
   end
 
   def update
+    if @company.update(company_params)
+      redirect_to company_url(@company), status: :see_other, notice: "自社情報を更新しました"
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   private
+
+  def set_company
+    @company = Company.find(params[:id])
+  end
 
   def company_params
     params.require(:company).permit(:name, :postal_code, :address, :phone, :fax)
