@@ -18,4 +18,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "home#top"
+  resources :companies, only: %i[ new create ]
 end

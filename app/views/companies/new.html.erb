@@ -1,4 +1,121 @@
-<div>
-  <h1 class="font-bold text-4xl">Companies#new</h1>
-  <p>Find me in app/views/companies/new.html.erb</p>
+<% provide(:title, "Register Company") %>
+
+<div class="bg-slate-50 flex items-start justify-center p-4 font-sans">
+  <div class="w-[560px] max-w-full space-y-8 bg-white rounded-xl shadow-lg border border-slate-100 p-8">
+    <div class="text-center">
+      <h2 class="text-2xl font-bold text-slate-800 mb-2 tracking-tight">
+        自社情報登録
+      </h2>
+    </div>
+
+    <%= form_with model: @company, url: companies_path, html: { class: "space-y-5" } do |f| %>
+      <div>
+        <%= f.label :name, "会社名", class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5 mb-2" %>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+          </div>
+          <%= f.text_field :name,
+                placeholder: "例）株式会社田中建設",
+                class: "block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a0e9] focus:border-[#00a0e9] transition-colors duration-200 bg-slate-50 focus:bg-white" %>
+        </div>
+        <% if @company.errors[:name].any? %>
+          <p class="text-red-500 text-xs mt-1 font-semibold"><%= @company.errors.full_messages_for(:name).first %></p>
+        <% end %>
+      </div>
+
+      <div>
+        <div class="flex items-baseline justify-between mb-2">
+          <%= f.label :postal_code, "郵便番号", class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5" %>
+          <span class="text-xs text-slate-500">半角数字（ハイフンなし）</span>
+        </div>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <%= f.text_field :postal_code,
+                placeholder: "例）1000001",
+                class: "block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a0e9] focus:border-[#00a0e9] transition-colors duration-200 bg-slate-50 focus:bg-white" %>
+        </div>
+        <% if @company.errors[:postal_code].any? %>
+          <% @company.errors.full_messages_for(:postal_code).each do |message| %>
+            <p class="text-red-500 text-xs mt-1 font-semibold"><%= message %></p>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div>
+        <%= f.label :address, "住所", class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5 mb-2" %>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+          </div>
+          <%= f.text_field :address,
+                placeholder: "例）東京都千代田区千代田1-1",
+                class: "block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a0e9] focus:border-[#00a0e9] transition-colors duration-200 bg-slate-50 focus:bg-white" %>
+        </div>
+        <% if @company.errors[:address].any? %>
+          <p class="text-red-500 text-xs mt-1 font-semibold"><%= @company.errors.full_messages_for(:address).first %></p>
+        <% end %>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <div class="flex items-baseline justify-between mb-2">
+            <%= f.label :phone, "電話番号", class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5" %>
+            <span class="text-xs text-slate-500">ハイフンなし</span>
+          </div>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+            </div>
+            <%= f.text_field :phone,
+                  placeholder: "例）0312345678",
+                  class: "block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a0e9] focus:border-[#00a0e9] transition-colors duration-200 bg-slate-50 focus:bg-white" %>
+          </div>
+          <% if @company.errors[:phone].any? %>
+            <% @company.errors.full_messages_for(:phone).each do |message| %>
+              <p class="text-red-500 text-xs mt-1 font-semibold"><%= message %></p>
+            <% end %>
+          <% end %>
+        </div>
+
+        <div>
+          <div class="flex items-baseline justify-between mb-2">
+            <%= f.label :fax, "FAX番号", class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5" %>
+            <span class="text-xs text-slate-500">ハイフンなし</span>
+          </div>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+              </svg>
+            </div>
+            <%= f.text_field :fax,
+                  placeholder: "例）0312345679",
+                  class: "block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a0e9] focus:border-[#00a0e9] transition-colors duration-200 bg-slate-50 focus:bg-white" %>
+          </div>
+          <% if @company.errors[:fax].any? %>
+            <% @company.errors.full_messages_for(:fax).each do |message| %>
+              <p class="text-red-500 text-xs mt-1 font-semibold"><%= message %></p>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="pt-4">
+        <%= f.submit "登録する",
+              class: "w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-md text-white bg-[#00a0e9] hover:bg-[#008ccc] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00a0e9] transition-colors duration-200 shadow-sm" %>
+      </div>
+    <% end %>
+  </div>
 </div>
