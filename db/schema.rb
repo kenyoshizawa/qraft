@@ -10,37 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_30_073620) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_05_132856) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "companies", force: :cascade do |t|
     t.string "name", null: false
-    t.string "name_kana", null: false
     t.string "postal_code", null: false
     t.string "address", null: false
     t.string "phone", null: false
     t.string "fax", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.timestamp "created_at", precision: 6, null: false
+    t.timestamp "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.timestamptz "reset_password_sent_at", precision: 6
-    t.timestamptz "remember_created_at", precision: 6
-    t.timestamptz "created_at", precision: 6, null: false
-    t.timestamptz "updated_at", precision: 6, null: false
+    t.timestamp "reset_password_sent_at", precision: 6
+    t.timestamp "remember_created_at", precision: 6
+    t.timestamp "created_at", precision: 6, null: false
+    t.timestamp "updated_at", precision: 6, null: false
     t.string "name"
     t.string "name_kana"
     t.string "phone"
     t.integer "role", default: 0, null: false
     t.string "invitation_token"
-    t.datetime "invitation_created_at"
-    t.datetime "invitation_sent_at"
-    t.datetime "invitation_accepted_at"
+    t.timestamp "invitation_created_at", precision: 6
+    t.timestamp "invitation_sent_at", precision: 6
+    t.timestamp "invitation_accepted_at", precision: 6
     t.integer "invitation_limit"
     t.string "invited_by_type"
     t.bigint "invited_by_id"
