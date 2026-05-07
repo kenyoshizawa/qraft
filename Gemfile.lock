@@ -378,6 +378,7 @@ DEPENDENCIES
   propshaft
   puma (>= 5.0)
   rails (~> 7.2.3, >= 7.2.3.1)
+  rails-i18n
   rspec-rails
   rubocop
   rubocop-factory_bot
