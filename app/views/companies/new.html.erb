@@ -10,7 +10,7 @@
 
     <%= form_with model: @company, url: companies_path, html: { class: "space-y-5" } do |f| %>
       <div>
-        <%= f.label :name, "会社名", class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5 mb-2" %>
+        <%= f.label :name, class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5 mb-2" %>
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -28,7 +28,7 @@
 
       <div>
         <div class="flex items-baseline justify-between mb-2">
-          <%= f.label :postal_code, "郵便番号", class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5" %>
+          <%= f.label :postal_code, class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5" %>
           <span class="text-xs text-slate-500">半角数字（ハイフンなし）</span>
         </div>
         <div class="relative">
@@ -50,7 +50,7 @@
       </div>
 
       <div>
-        <%= f.label :address, "住所", class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5 mb-2" %>
+        <%= f.label :address, class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5 mb-2" %>
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -69,7 +69,7 @@
       <div class="grid grid-cols-2 gap-4">
         <div>
           <div class="flex items-baseline justify-between mb-2">
-            <%= f.label :phone, "電話番号", class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5" %>
+            <%= f.label :phone, class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5" %>
             <span class="text-xs text-slate-500">ハイフンなし</span>
           </div>
           <div class="relative">
@@ -91,7 +91,7 @@
 
         <div>
           <div class="flex items-baseline justify-between mb-2">
-            <%= f.label :fax, "FAX番号", class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5" %>
+            <%= f.label :fax, class: "block text-sm font-semibold text-slate-700 after:content-['*'] after:text-red-600 after:ml-0.5" %>
             <span class="text-xs text-slate-500">ハイフンなし</span>
           </div>
           <div class="relative">
