@@ -1,0 +1,5 @@
+ja:
+  activerecord:
+    models:
+      company: "自社情報"
+      
