@@ -1,0 +1,44 @@
+<% provide(:title, "招待待ち") %>
+
+<div class="bg-slate-50 flex items-start justify-center p-4 font-sans">
+  <div class="w-[448px] max-w-full space-y-8 bg-white rounded-xl shadow-lg border border-slate-100 p-8">
+    <div class="text-center">
+      <div class="flex justify-center mb-4">
+        <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center">
+          <svg class="w-8 h-8 text-[#00a0e9]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        </div>
+      </div>
+      <h2 class="text-2xl font-bold text-slate-800 mb-2 tracking-tight">
+        招待メールを受け取ってください
+      </h2>
+      <p class="text-sm text-slate-500">
+        アカウントを有効化するには、管理者からの招待が必要です
+      </p>
+    </div>
+
+    <div class="bg-blue-50 rounded-lg p-4 space-y-3">
+      <p class="text-sm font-semibold text-slate-700">ご利用までの手順</p>
+      <ol class="space-y-2">
+        <li class="flex items-start gap-3 text-sm text-slate-600">
+          <span class="flex-shrink-0 w-5 h-5 bg-[#00a0e9] text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
+          管理者ユーザーに招待メールの送信を依頼してください
+        </li>
+        <li class="flex items-start gap-3 text-sm text-slate-600">
+          <span class="flex-shrink-0 w-5 h-5 bg-[#00a0e9] text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
+          届いた招待メール内のリンクからアカウントを登録してください
+        </li>
+        <li class="flex items-start gap-3 text-sm text-slate-600">
+          <span class="flex-shrink-0 w-5 h-5 bg-[#00a0e9] text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
+          登録完了後、自社情報が自動的に紐づけられます
+        </li>
+      </ol>
+    </div>
+
+    <div>
+      <%= link_to "ログアウトして戻る", destroy_user_session_path, data: { turbo_method: :delete }, 
+            class: "inline-flex justify-center w-full py-2.5 px-4 border border-slate-300 shadow-sm text-sm font-semibold rounded-md text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00a0e9] transition-colors duration-200" %>
+    </div>
+  </div>
+</div>
