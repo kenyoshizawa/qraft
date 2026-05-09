@@ -20,4 +20,6 @@ Rails.application.routes.draw do
   root "home#top"
   resources :companies, only: %i[ new create edit update ]
   get "invitation_required", to: "pages#invitation_required", as: :invitation_required
+
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 end
