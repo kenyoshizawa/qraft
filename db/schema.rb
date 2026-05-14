@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_05_05_132856) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_14_062049) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,31 +20,32 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_05_132856) do
     t.string "address", null: false
     t.string "phone", null: false
     t.string "fax", null: false
-    t.timestamp "created_at", precision: 6, null: false
-    t.timestamp "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.timestamp "reset_password_sent_at", precision: 6
-    t.timestamp "remember_created_at", precision: 6
-    t.timestamp "created_at", precision: 6, null: false
-    t.timestamp "updated_at", precision: 6, null: false
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "name"
     t.string "name_kana"
     t.string "phone"
     t.integer "role", default: 0, null: false
     t.string "invitation_token"
-    t.timestamp "invitation_created_at", precision: 6
-    t.timestamp "invitation_sent_at", precision: 6
-    t.timestamp "invitation_accepted_at", precision: 6
+    t.datetime "invitation_created_at"
+    t.datetime "invitation_sent_at"
+    t.datetime "invitation_accepted_at"
     t.integer "invitation_limit"
     t.string "invited_by_type"
     t.bigint "invited_by_id"
     t.integer "invitations_count", default: 0
     t.bigint "company_id"
+    t.boolean "invited_by_only", default: false, null: false
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
