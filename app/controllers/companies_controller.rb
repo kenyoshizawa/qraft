@@ -1,5 +1,8 @@
 class CompaniesController < ApplicationController
-  before_action :set_company, only: %i[ edit update ]
+  before_action :set_company, only: %i[ show edit update ]
+
+  def show
+  end
 
   def new
     @company = Company.new
