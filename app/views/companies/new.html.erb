@@ -1,0 +1,13 @@
+<% provide(:title, "Register Company") %>
+
+<div class="bg-slate-50 flex items-start justify-center p-4 font-sans">
+  <div class="w-[560px] max-w-full space-y-8 bg-white rounded-xl shadow-lg border border-slate-100 p-8">
+    <div class="text-center">
+      <h2 class="text-2xl font-bold text-slate-800 mb-2 tracking-tight">
+        自社情報登録
+      </h2>
+    </div>
+
+    <%= render "form", company: @company %>
+  </div>
+</div>

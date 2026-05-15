@@ -1,21 +1,19 @@
-<header class="bg-white shadow-sm">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-16">
+<header class="bg-white border-b border-gray-200">
+  <div class="flex items-center h-16 w-full">
+    <div class="w-56 shrink-0 flex items-center px-6 h-full">
+      <%= link_to "Qraft", root_path, class: "text-xl font-bold text-gray-900 tracking-tight" %>
+    </div>
 
-      <div class="flex items-center">
-        <%= link_to "Qraft", root_path, class: "text-xl font-semibold text-gray-900" %>
-      </div>
-
-      <div class="flex items-center space-x-4">
+    <div class="flex-1 flex justify-end items-center px-6">
+      <div class="flex items-center space-x-2">
         <% if user_signed_in? %>
-          <%= link_to (current_user.name.presence || "ユーザー名（未設定）"), edit_user_registration_path, class: "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
-          <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete, turbo_confirm: "本当にログアウトしますか？" }, class: "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
+          <%= link_to (current_user.name.presence || "ユーザー名（未設定）"), edit_user_registration_path, class: "text-gray-600 hover:bg-gray-50 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
+          <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete, turbo_confirm: "本当にログアウトしますか？" }, class: "text-gray-600 hover:bg-gray-50 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
         <% else %>
-          <%= link_to "ログイン", new_user_session_path, class: "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
-          <%= link_to "新規登録", new_user_registration_path, class: "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
+          <%= link_to "ログイン", new_user_session_path, class: "text-gray-600 hover:bg-gray-50 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
+          <%= link_to "新規登録", new_user_registration_path, class: "text-gray-600 hover:bg-gray-50 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
         <% end %>
       </div>
-
     </div>
   </div>
 </header>
