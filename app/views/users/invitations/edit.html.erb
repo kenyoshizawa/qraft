@@ -13,11 +13,19 @@
       <h2 class="text-2xl font-bold text-slate-800 mb-2 tracking-tight">
         パスワードを設定
       </h2>
-      <p class="text-sm text-slate-500">
-        パスワードを設定するとアカウントが登録されます。<br>
-        メールアドレス：招待を受け取ったメールアドレス<br>
-        パスワード：下記で入力するパスワード
+      <p class="text-sm text-slate-500 mb-4">
+        パスワードを設定するとアカウントが登録されます。
       </p>
+      <div class="bg-blue-50 rounded-lg p-4 space-y-2 text-left">
+        <ul class="space-y-2">
+          <li class="flex items-start gap-3 text-sm text-slate-600">
+            <span><span class="font-semibold">メールアドレス：</span>招待を受け取ったアドレス</span>
+          </li>
+          <li class="flex items-start gap-3 text-sm text-slate-600">
+            <span><span class="font-semibold">パスワード：</span>下記で入力するパスワード</span>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <%= form_for(resource, as: resource_name, url: invitation_path(resource_name), html: { method: :put, class: "space-y-6" }) do |f| %>
