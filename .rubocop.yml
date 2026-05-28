@@ -18,6 +18,16 @@ AllCops:
     - "bin/**/*"
     - "tmp/**/*"
     - "node_modules/**/*"
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: double_quotes
+  Include:
+    - app/**/*
+    - config/**/*
+    - lib/**/*
+    - test/**/*
+    - spec/**/*
+    - Gemfile
 
 # 1つのテスト(it)の中に記述できる検証(expect)の数をチェック
 RSpec/MultipleExpectations:
@@ -29,4 +39,8 @@ RSpec/NestedGroups:
 
 # letやsubjectをブロックの先頭に書くことを強制するルールを無効化
 RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+# 日本語コンテキストを許容する
+RSpec/ContextWording:
   Enabled: false
