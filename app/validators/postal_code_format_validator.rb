@@ -1,5 +1,7 @@
-class PhoneFormatValidator < ActiveModel::EachValidator
+class PostalCodeFormatValidator < ActiveModel::EachValidator
   include NumericFormatPatterns
+
+  VALID_LENGTH = 7
 
   def validate_each(record, attribute, value)
     return if value.blank?
@@ -8,8 +10,8 @@ class PhoneFormatValidator < ActiveModel::EachValidator
       record.errors.add(attribute, "はハイフンなしで入力してください")
     elsif value.match?(NON_NUMERIC_PATTERN)
       record.errors.add(attribute, "は半角数字で入力してください")
-    elsif !Phonelib.valid_for_country?(value, :jp)
-      record.errors.add(attribute, :invalid)
+    elsif value.length != VALID_LENGTH
+      record.errors.add(attribute, "は7桁で入力してください")
     end
   end
 end
