@@ -8,8 +8,8 @@ class User < ApplicationRecord
 
   enum role: { general: 0, admin: 1, retired: 2 }
 
-  validates :email, uniqueness: { case_sensitive: false }, allowed_domain: true
-
+  validates :email,
+    uniqueness: { case_sensitive: false }, allowed_domain: true
   validates :name,
     length: { maximum: 20 }, name_format: true, allow_blank: true
   validates :name_kana,
