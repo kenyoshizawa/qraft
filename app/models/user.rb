@@ -14,9 +14,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: { case_sensitive: false }, allowed_domain: true
 
   validates :name,
-    length: { maximum: 20 },
-    format: { with: VALID_NAME_REGEX, message: "は氏名の間に半角スペースを入れてください" },
-    allow_blank: true
+    length: { maximum: 20 }, name_format: true, allow_blank: true
   validates :name_kana,
     length: { maximum: 20 },
     format: { with: VALID_NAME_REGEX, message: "は氏名の間に半角スペースを入れてください" },
