@@ -14,7 +14,8 @@ class User < ApplicationRecord
     length: { maximum: 20 }, name_format: true, allow_blank: true
   validates :name_kana,
     length: { maximum: 20 }, name_kana_format: true, allow_blank: true
-  validates :phone, phone: { possible: true, countries: :jp }, phone_format: true, allow_blank: true
+  validates :phone,
+    phone_format: true, allow_blank: true
 
   def active_for_authentication?
     super && !retired?
