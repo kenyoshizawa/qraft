@@ -1,5 +1,5 @@
 class NameFormatValidator < ActiveModel::EachValidator
-  VALID_NAME_REGEX = /\A[^\p{blank}]+ [^\p{blank}]+\z/
+  include NameFormatPatterns
 
   def validate_each(record, attribute, value)
     return if value.blank?

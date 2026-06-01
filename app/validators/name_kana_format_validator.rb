@@ -1,6 +1,5 @@
 class NameKanaFormatValidator < ActiveModel::EachValidator
-  VALID_NAME_REGEX = /\A[^\p{blank}]+ [^\p{blank}]+\z/
-  VALID_NAME_KANA_REGEX = /\A[ァ-ヶー]+(?: [ァ-ヶー]+)*\z/
+  include NameFormatPatterns
 
   def validate_each(record, attribute, value)
     return if value.blank?
