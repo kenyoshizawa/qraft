@@ -23,6 +23,8 @@ class User < ApplicationRecord
     super && !retired?
   end
 
+  # ログインが拒否された場合、表示されるメッセージのキーを返すメソッドをオーバーライド
+  # retiredユーザーの場合は:retired_accountを返し、それ以外はDeviseのデフォルトメッセージを返す
   def inactive_message
     retired? ? :retired_account : super
   end
