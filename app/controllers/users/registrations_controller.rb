@@ -38,6 +38,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
+  # PATCH /users/deactivate
   def deactivate
     current_user.update(role: :retired)
     sign_out(current_user)
