@@ -17,10 +17,14 @@ class User < ApplicationRecord
   validates :phone,
     phone_format: true, allow_blank: true
 
+  # Deviseのログイン可否を判定するメソッドをオーバーライド
+  # retiredユーザーはログインを拒否される
   def active_for_authentication?
     super && !retired?
   end
 
+  # ログインが拒否された場合、表示されるメッセージのキーを返すメソッドをオーバーライド
+  # retiredユーザーの場合は:retired_accountを返し、それ以外はDeviseのデフォルトメッセージを返す
   def inactive_message
     retired? ? :retired_account : super
   end
