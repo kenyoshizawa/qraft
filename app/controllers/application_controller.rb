@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def company_registered!
+  def require_company!
     return unless user_signed_in?
     return if current_user.company.present?
 
