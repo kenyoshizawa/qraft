@@ -1,12 +1,13 @@
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
+
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :require_company!, unless: :devise_controller?
+  after_action :verify_authorized, unless: :devise_controller?
 
   protected
 
