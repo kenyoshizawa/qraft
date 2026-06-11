@@ -1,6 +1,6 @@
 class Users::InvitationsController < Devise::InvitationsController
+  before_action :require_company!, only: %i[ new create ]
   before_action :require_admin!, only: %i[ new create ]
-  before_action :company_registered!, only: %i[ new create ]
   before_action :reject_other_company_user!, only: %i[ create ]
 
   skip_before_action :authenticate_user!, only: %i[ edit update ]

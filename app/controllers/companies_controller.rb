@@ -1,4 +1,5 @@
 class CompaniesController < ApplicationController
+  skip_before_action :require_company!, only: %i[ new create ]
   before_action :set_company, only: %i[ show edit update ]
 
   def show

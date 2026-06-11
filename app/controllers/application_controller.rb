@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :require_company!, unless: :devise_controller?
 
   protected
 
@@ -24,7 +25,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def company_registered!
+  def require_company!
     return unless user_signed_in?
     return if current_user.company.present?
 
