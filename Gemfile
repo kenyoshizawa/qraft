@@ -41,6 +41,7 @@ gem "devise-i18n"
 gem "devise_invitable"
 gem "dotenv-rails"
 gem "phonelib"
+gem "pundit"
 gem "cgi", "0.4.1"
 
 group :development, :test do
