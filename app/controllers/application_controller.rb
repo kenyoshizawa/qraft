@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::Base
+  include Pundit::Authorization
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
   before_action :authenticate_user!
@@ -24,6 +27,11 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def user_not_authorized
+    flash[:alert] = "権限がありません。"
+    redirect_back(fallback_location: root_path)
+  end
 
   def require_company!
     return unless user_signed_in?
