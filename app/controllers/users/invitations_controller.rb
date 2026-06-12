@@ -1,4 +1,5 @@
 class Users::InvitationsController < Devise::InvitationsController
+  after_action :verify_authorized, only: %i[ new create ]
   before_action :require_admin!, only: %i[ new create ]
   before_action :reject_other_company_user!, only: %i[ create ]
 
