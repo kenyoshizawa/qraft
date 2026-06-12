@@ -1,5 +1,4 @@
 class Users::InvitationsController < Devise::InvitationsController
-  before_action :require_company!, only: %i[ new create ]
   before_action :require_admin!, only: %i[ new create ]
   before_action :reject_other_company_user!, only: %i[ create ]
 
@@ -9,7 +8,13 @@ class Users::InvitationsController < Devise::InvitationsController
 
   before_action :validate_email!, only: :create
 
+  def new
+    authorize User
+    super
+  end
+
   def create
+    authorize User
     existing_user = User.find_by(email: invite_params[:email])
 
     if existing_user
