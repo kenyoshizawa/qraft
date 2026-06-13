@@ -29,6 +29,10 @@ class CompanyPolicy < ApplicationPolicy
     user.general? && show?
   end
 
+  def edit_navigation_link?
+    edit?
+  end
+
   class Scope < ApplicationPolicy::Scope
     # NOTE: Be explicit about which records you allow access to!
     # def resolve
