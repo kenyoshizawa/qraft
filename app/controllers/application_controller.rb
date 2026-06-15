@@ -15,6 +15,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [ :name, :name_kana, :phone ])
   end
 
+  # ログイン後のリダイレクト先を決定するDeviseのメソッドをオーバーライド
   def after_sign_in_path_for(resource)
     if resource.company.present?
       root_path
