@@ -1,16 +1,18 @@
 class CompaniesController < ApplicationController
-  skip_before_action :require_company!, only: %i[ new create ]
   before_action :set_company, only: %i[ show edit update ]
 
   def show
+    authorize @company
   end
 
   def new
     @company = Company.new
+    authorize @company
   end
 
   def create
     @company = Company.new(company_params)
+    authorize @company
 
     if @company.save
       current_user.update!(company_id: @company.id)
@@ -21,9 +23,11 @@ class CompaniesController < ApplicationController
   end
 
   def edit
+    authorize @company
   end
 
   def update
+    authorize @company
     if @company.update(company_params)
       redirect_to company_url(@company), status: :see_other, notice: "自社情報を更新しました"
     else

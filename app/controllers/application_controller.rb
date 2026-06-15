@@ -1,12 +1,13 @@
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
+
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :require_company!, unless: :devise_controller?
+  after_action :verify_authorized, unless: :devise_controller?
 
   protected
 
@@ -29,18 +30,18 @@ class ApplicationController < ActionController::Base
   private
 
   def user_not_authorized
-    flash[:alert] = "権限がありません。"
-    redirect_back(fallback_location: root_path)
+    if user_signed_in? && current_user.company.nil?
+      redirect_to_company_registration
+    else
+      redirect_back fallback_location: root_path, alert: "権限がありません。"
+    end
   end
 
-  def require_company!
-    return unless user_signed_in?
-    return if current_user.company.present?
-
+  def redirect_to_company_registration
     if current_user.admin?
-      redirect_to new_company_path, alert: "自社情報を登録してください"
+      redirect_to new_company_path, alert: "自社情報を登録してください。"
     else
-      redirect_to invitation_required_path, alert: "管理者ユーザーから招待メールを受け取ってください"
+      redirect_to invitation_required_path, alert: "管理者ユーザーから招待メールを受け取ってください。"
     end
   end
 end
