@@ -20,10 +20,10 @@ class ApplicationController < ActionController::Base
     if resource.company.present?
       root_path
     elsif resource.admin?
-      flash[:alert] = "自社情報を登録してください"
+      flash[:alert] = "自社情報を登録してください。"
       new_company_path
     else
-      flash[:alert] = "管理者ユーザーから招待メールを受け取ってください"
+      flash[:alert] = "管理者ユーザーから招待メールを受け取ってください。"
       invitation_required_path
     end
   end

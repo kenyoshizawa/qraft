@@ -31,7 +31,7 @@ RSpec.describe "After sign in", type: :request do
         it "指定したフラッシュメッセージが表示されること" do
           admin = create(:user, :admin, company: nil)
           post user_session_path, params: { user: { email: admin.email, password: admin.password } }
-          expect(flash[:alert]).to eq("自社情報を登録してください")
+          expect(flash[:alert]).to eq("自社情報を登録してください。")
         end
       end
 
@@ -45,7 +45,7 @@ RSpec.describe "After sign in", type: :request do
         it "指定したフラッシュメッセージが表示されること" do
           general = create(:user, :general, company: nil)
           post user_session_path, params: { user: { email: general.email, password: general.password } }
-          expect(flash[:alert]).to eq("管理者ユーザーから招待メールを受け取ってください")
+          expect(flash[:alert]).to eq("管理者ユーザーから招待メールを受け取ってください。")
         end
       end
     end
