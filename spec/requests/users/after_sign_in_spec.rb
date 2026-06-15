@@ -2,8 +2,6 @@ require "rails_helper"
 
 RSpec.describe "After sign in", type: :request do
   describe "POST /users/sign_in" do
-    let(:company) { create(:company) }
-
     context "adminユーザーの場合" do
       context "company登録済みの場合" do
         it "root_pathにリダイレクトされること" do
