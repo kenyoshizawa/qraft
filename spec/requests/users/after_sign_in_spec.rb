@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "User sign in", type: :request do
+RSpec.describe "After sign in", type: :request do
   describe "POST /users/sign_in" do
     let(:company) { create(:company) }
 
