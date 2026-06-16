@@ -16,7 +16,7 @@ class CompaniesController < ApplicationController
 
     if @company.save
       current_user.update!(company_id: @company.id)
-      redirect_to edit_company_url(@company), status: :see_other, notice: "自社情報を登録しました"
+      redirect_to edit_company_url(@company), status: :see_other, notice: "自社情報を登録しました。"
     else
       render :new, status: :unprocessable_entity
     end
@@ -29,7 +29,7 @@ class CompaniesController < ApplicationController
   def update
     authorize @company
     if @company.update(company_params)
-      redirect_to edit_company_url(@company), status: :see_other, notice: "自社情報を更新しました"
+      redirect_to edit_company_url(@company), status: :see_other, notice: "自社情報を更新しました。"
     else
       render :edit, status: :unprocessable_entity
     end
