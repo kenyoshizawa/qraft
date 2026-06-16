@@ -29,7 +29,7 @@ class CompaniesController < ApplicationController
   def update
     authorize @company
     if @company.update(company_params)
-      redirect_to company_url(@company), status: :see_other, notice: "自社情報を更新しました"
+      redirect_to edit_company_url(@company), status: :see_other, notice: "自社情報を更新しました"
     else
       render :edit, status: :unprocessable_entity
     end
