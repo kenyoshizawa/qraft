@@ -22,6 +22,10 @@ FactoryBot.define do
       role { :admin }
     end
 
+    trait :general do
+      role { :general }
+    end
+
     trait :retired do
       role { :retired }
     end

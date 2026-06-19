@@ -5,5 +5,9 @@ FactoryBot.define do
     address { "東京都千代田区千代田1-1" }
     phone { "0312345678" }
     fax { "0312345679" }
+
+    trait :invalid do
+      name { nil }
+    end
   end
 end

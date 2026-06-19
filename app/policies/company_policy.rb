@@ -6,7 +6,7 @@ class CompanyPolicy < ApplicationPolicy
   # https://gist.github.com/Burgestrand/4b4bc22f31c8a95c425fc0e30d7ef1f5
 
   def show?
-    user.company_id == record.id
+    user.general? && user.company_id == record.id
   end
 
   def new?
@@ -22,14 +22,6 @@ class CompanyPolicy < ApplicationPolicy
   end
 
   def update?
-    edit?
-  end
-
-  def show_navigation_link?
-    user.general? && show?
-  end
-
-  def edit_navigation_link?
     edit?
   end
 
