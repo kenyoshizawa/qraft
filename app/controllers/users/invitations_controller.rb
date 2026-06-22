@@ -23,7 +23,7 @@ class Users::InvitationsController < Devise::InvitationsController
       existing_user.invite!(current_inviter)
       redirect_to root_path, notice: "#{existing_user.email} に招待メールを送信しました。"
     else
-      # アカウントを作成していない場合 ⇨ 新規ユーザーを作成して、そのユーザーに招待メールを送信する
+      # 事前にアカウントを作成していない場合 ⇨ 新規ユーザーを作成して、そのユーザーに招待メールを送信する
       super
     end
   end
