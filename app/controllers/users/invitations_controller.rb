@@ -78,8 +78,10 @@ class Users::InvitationsController < Devise::InvitationsController
 
   def require_general!
     user = User.find_by_invitation_token(params[:invitation_token], false)
-    return unless user&.admin?
-    redirect_to root_path, alert: "管理者ユーザーは招待メールを受け取れません。"
+
+    if user&.admin?
+      redirect_to root_path, alert: "管理者ユーザーは招待メールを受け取れません。"
+    end
   end
 
   def reject_company_user!
