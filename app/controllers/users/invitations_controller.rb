@@ -92,15 +92,19 @@ class Users::InvitationsController < Devise::InvitationsController
     end
   end
 
-  def validate_email_for_invitation
-    user = User.new(email: invite_params[:email])
-    validator = AllowedDomainValidator.new(attributes: [ :email ])
-    validator.validate_each(user, :email, invite_params[:email])
-    user
+  def reject_admin_user!
+    user = User.find_by(email: invite_params[:email])
+
+    if user&.admin?
+      redirect_to root_path, alert: "管理者ユーザーには招待メールを送信できません。"
+    end
   end
 
   def validate_email!
-    self.resource = validate_email_for_invitation
+    # 招待フォームでバリデーションエラーを表示するため、検証用の resource にエラーを保持する
+    self.resource = User.new(email: invite_params[:email])
+    validator = AllowedDomainValidator.new(attributes: [ :email ])
+    validator.validate_each(resource, :email, resource.email)
 
     return unless resource.errors[:email].any?
 
