@@ -1,7 +1,7 @@
 class Users::InvitationsController < Devise::InvitationsController
   after_action :verify_authorized, only: %i[ new create ]
   before_action :require_admin!, only: %i[ new create ]
-  before_action :reject_other_company_user!, only: %i[ create ]
+  before_action :reject_company_user!, only: %i[ create ]
 
   skip_before_action :authenticate_user!, only: %i[ edit update ]
   skip_before_action :require_no_authentication, only: %i[ edit update ]
@@ -82,15 +82,12 @@ class Users::InvitationsController < Devise::InvitationsController
     redirect_to root_path, alert: "管理者ユーザーは招待メールを受け取れません。"
   end
 
-  def reject_other_company_user!
+  def reject_company_user!
     user = User.find_by(email: invite_params[:email])
 
-    # ユーザーが存在し、既に company_id が設定されている場合は弾く
-    return unless user&.company_id.present?
-
-    # 同じ company_id が設定されている場合は再招待を許可する
-    return if user.company_id == current_user.company_id
-    redirect_to root_path, alert: "既に別の会社に所属しているユーザーです。"
+    if user&.company_id.present?
+      redirect_to root_path, alert: "既に会社に所属しているユーザーです。"
+    end
   end
 
   def validate_email_for_invitation
