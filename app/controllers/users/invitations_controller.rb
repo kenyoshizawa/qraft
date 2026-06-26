@@ -23,7 +23,7 @@ class Users::InvitationsController < Devise::InvitationsController
       existing_user.invite!(current_inviter)
       redirect_to root_path, notice: "#{existing_user.email} に招待メールを送信しました。"
     else
-      # 事前にアカウントを作成していない場合 ⇨ 新規ユーザーを作成して、そのユーザーに招待メールを送信する
+      # 事前にアカウントを作成していない場合 ⇨ invite_resource で新規ユーザーを作成して、そのユーザーに招待メールを送信する
       super
     end
   end
@@ -59,6 +59,8 @@ class Users::InvitationsController < Devise::InvitationsController
 
   protected
 
+  # 新規Userを作成し、招待トークンを発行して招待メールを送信する
+  # 作成時に招待者のcompany_idを紐づけ、invited_by_onlyをtrueにする
   def invite_resource
     resource_class.invite!(invite_params, current_inviter) do |invitable|
       invitable.company_id = current_inviter.company_id
