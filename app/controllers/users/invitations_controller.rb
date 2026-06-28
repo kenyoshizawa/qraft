@@ -29,38 +29,31 @@ class Users::InvitationsController < Devise::InvitationsController
   end
 
   def edit
-    existing_user = User.find_by_invitation_token(params[:invitation_token], true)
+    # 招待トークンからユーザーを取得
+    invited_user = find_invited_user
 
-    if existing_user.nil?
+    if invited_user.nil?
       redirect_to root_path, alert: "招待リンクが無効または期限切れです。"
       return
     end
 
     sign_out(current_user) if user_signed_in?
 
-    if existing_user.invited_by_only?
+    if invited_user.invited_by_only?
       # アカウントを作成していない場合：
-      # invite_resource メソッドを実行し、パスワード入力画面を表示
+      # Devise Invitable の通常フローでパスワード入力画面を表示
       super
     else
       # 事前にアカウント作成している場合：
-      # invitation を直接更新し、ログイン
-      # 不要なバリデーションやコールバックを避けるため update_columns を使用
-      existing_user.update_columns(
-        company_id: existing_user.invited_by.company_id,
-        invitation_accepted_at: Time.current,
-        invitation_token: nil,
-        invited_by_only: false
-      )
-      sign_in(existing_user)
-      redirect_to root_path, notice: "自社情報が紐づけられました。"
+      # 作成済みユーザーに自社情報を紐づけてログイン
+      accept_invitation_for_existing_user(invited_user)
     end
   end
 
   protected
 
   # 新規Userを作成し、招待トークンを発行して招待メールを送信する
-  # 作成時に招待者のcompany_idを紐づけ、invited_by_onlyをtrueにする
+  # 作成時に招待者の company_id を紐づけ、invited_by_only を true に設定する
   def invite_resource
     resource_class.invite!(invite_params, current_inviter) do |invitable|
       invitable.company_id = current_inviter.company_id
@@ -79,6 +72,7 @@ class Users::InvitationsController < Devise::InvitationsController
   end
 
   def require_general!
+    # 有効・無効に関係なく、招待リンクに対応するユーザーを探す
     user = User.find_by_invitation_token(params[:invitation_token], false)
 
     if user&.admin?
@@ -111,5 +105,23 @@ class Users::InvitationsController < Devise::InvitationsController
     return unless resource.errors[:email].any?
 
     render :new, status: :unprocessable_entity
+  end
+
+  def find_invited_user
+    # 有効な招待リンクをもつユーザーを探す
+    User.find_by_invitation_token(params[:invitation_token], true)
+  end
+
+  def accept_invitation_for_existing_user(user)
+    # バリデーションやコールバックを避けるため update_columns を使用
+    user.update_columns(
+      company_id: user.invited_by.company_id,
+      invitation_accepted_at: Time.current,
+      invitation_token: nil,
+      invited_by_only: false
+    )
+
+    sign_in(user)
+    redirect_to root_path, notice: "自社情報が紐づけられました。"
   end
 end
