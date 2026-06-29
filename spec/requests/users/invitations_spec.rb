@@ -222,4 +222,104 @@ RSpec.describe "Users::Invitations", type: :request do
       end
     end
   end
+
+  describe "GET /users/invitation/accept" do
+    context "トークンが有効な場合" do
+      context "受信者が「事前にアカウントを作成していない」adminユーザーの場合" do
+        let(:inviter) { create(:user, :admin, :with_company) }
+        let(:allowed_domain) { ENV["ALLOWED_DOMAIN"].to_s.split(",").first }
+
+        # Users::InvitationsController#create で実行される invite_resource メソッドを再現する
+        # 事前にアカウントを作成していないadminユーザーに、招待メールの送信と招待トークンの生成を行い、
+        # 自社情報を紐付けて、invited_by_only を true に設定する
+        let(:invited_user) do
+          User.invite!({ email: "admin@#{allowed_domain}", role: :admin }, inviter) do |u|
+            u.company_id = inviter.company_id
+            u.invited_by_only = true
+          end
+        end
+
+        let(:token) { invited_user.raw_invitation_token }
+
+        it "トップページにリダイレクトすること" do
+          get accept_user_invitation_path(invitation_token: token)
+          expect(response).to redirect_to(root_path)
+        end
+      end
+
+      context "受信者が「事前にアカウントを作成していない」generalユーザーの場合" do
+        let(:inviter) { create(:user, :admin, :with_company) }
+        let(:allowed_domain) { ENV["ALLOWED_DOMAIN"].to_s.split(",").first }
+
+        let(:invited_user) do
+          User.invite!({ email: "admin@#{allowed_domain}", role: :general }, inviter) do |u|
+            u.company_id = inviter.company_id
+            u.invited_by_only = true
+          end
+        end
+
+        let(:token) { invited_user.raw_invitation_token }
+
+        it "HTTPステータス200を返すこと" do
+          get accept_user_invitation_path(invitation_token: token)
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context "受信者が「事前にアカウントを作成している」adminユーザーの場合" do
+        let(:inviter) { create(:user, :admin, :with_company) }
+        let(:allowed_domain) { ENV["ALLOWED_DOMAIN"].to_s.split(",").first }
+        let(:existing_user) { create(:user, :admin, company: nil) }
+        let(:token) { existing_user.raw_invitation_token }
+
+        # Users::InvitationsController#create で実行される existing_user.invite!(current_inviter) を再現する
+        # 事前にアカウントを作成しているadminユーザーに、招待メールの送信と招待トークンの生成を行い、invited_by_only を false に設定する
+        before do
+          existing_user.invite!(inviter)
+          existing_user.update_column(:invited_by_only, false)
+        end
+
+        it "トップページにリダイレクトすること" do
+          get accept_user_invitation_path(invitation_token: token)
+          expect(response).to redirect_to(root_path)
+        end
+      end
+
+      context "受信者が「事前にアカウントを作成している」generalユーザーの場合" do
+        let(:inviter) { create(:user, :admin, :with_company) }
+        let(:allowed_domain) { ENV["ALLOWED_DOMAIN"].to_s.split(",").first }
+        let(:existing_user) { create(:user, :general, company: nil) }
+        let(:token) { existing_user.raw_invitation_token }
+
+        before do
+          existing_user.invite!(inviter)
+          existing_user.update_column(:invited_by_only, false)
+        end
+
+        it "トップページにリダイレクトすること" do
+          get accept_user_invitation_path(invitation_token: token)
+          expect(response).to redirect_to(root_path)
+        end
+
+        it "自社情報が紐づくこと" do
+          get accept_user_invitation_path(invitation_token: token)
+          existing_user.reload
+          expect(existing_user.company_id).to eq(inviter.company_id)
+        end
+
+        it "招待が完了し、トークンが無効化されること" do
+          get accept_user_invitation_path(invitation_token: token)
+          existing_user.reload
+          expect(existing_user.invitation_token).to be_nil
+        end
+      end
+    end
+
+    context "トークンが無効な場合" do
+      it "トップページにリダイレクトされること" do
+        get accept_user_invitation_path(invitation_token: "invalid_token")
+        expect(response).to redirect_to(root_path)
+      end
+    end
+  end
 end
