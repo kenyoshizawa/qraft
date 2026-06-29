@@ -1,7 +1,7 @@
 class Users::InvitationsController < Devise::InvitationsController
   after_action :verify_authorized, only: %i[ new create ]
   before_action :require_admin!, only: %i[ new create ]
-  before_action :reject_other_company_user!, only: %i[ create ]
+  before_action :reject_company_user!, only: %i[ create ]
 
   skip_before_action :authenticate_user!, only: %i[ edit update ]
   skip_before_action :require_no_authentication, only: %i[ edit update ]
@@ -23,42 +23,37 @@ class Users::InvitationsController < Devise::InvitationsController
       existing_user.invite!(current_inviter)
       redirect_to root_path, notice: "#{existing_user.email} に招待メールを送信しました。"
     else
-      # アカウントを作成していない場合 ⇨ 新規ユーザーを作成して、そのユーザーに招待メールを送信する
+      # 事前にアカウントを作成していない場合 ⇨ invite_resource で新規ユーザーを作成して、そのユーザーに招待メールを送信する
       super
     end
   end
 
   def edit
-    existing_user = User.find_by_invitation_token(params[:invitation_token], true)
+    # 招待トークンからユーザーを取得
+    invited_user = find_invited_user
 
-    if existing_user.nil?
+    if invited_user.nil?
       redirect_to root_path, alert: "招待リンクが無効または期限切れです。"
       return
     end
 
     sign_out(current_user) if user_signed_in?
 
-    if existing_user.invited_by_only?
+    if invited_user.invited_by_only?
       # アカウントを作成していない場合：
-      # invite_resource メソッドを実行し、パスワード入力画面を表示
+      # Devise Invitable の通常フローでパスワード入力画面を表示
       super
     else
       # 事前にアカウント作成している場合：
-      # invitation を直接更新し、ログイン
-      # 不要なバリデーションやコールバックを避けるため update_columns を使用
-      existing_user.update_columns(
-        company_id: existing_user.invited_by.company_id,
-        invitation_accepted_at: Time.current,
-        invitation_token: nil,
-        invited_by_only: false
-      )
-      sign_in(existing_user)
-      redirect_to root_path, notice: "自社情報が紐づけられました。"
+      # 作成済みユーザーに自社情報を紐づけてログイン
+      accept_invitation_for_existing_user(invited_user)
     end
   end
 
   protected
 
+  # 新規Userを作成し、招待トークンを発行して招待メールを送信する
+  # 作成時に招待者の company_id を紐づけ、invited_by_only を true に設定する
   def invite_resource
     resource_class.invite!(invite_params, current_inviter) do |invitable|
       invitable.company_id = current_inviter.company_id
@@ -77,34 +72,56 @@ class Users::InvitationsController < Devise::InvitationsController
   end
 
   def require_general!
+    # 有効・無効に関係なく、招待リンクに対応するユーザーを探す
     user = User.find_by_invitation_token(params[:invitation_token], false)
-    return unless user&.admin?
-    redirect_to root_path, alert: "管理者ユーザーは招待メールを受け取れません。"
+
+    if user&.admin?
+      redirect_to root_path, alert: "管理者ユーザーは招待メールを受け取れません。"
+    end
   end
 
-  def reject_other_company_user!
+  def reject_company_user!
     user = User.find_by(email: invite_params[:email])
 
-    # ユーザーが存在し、既に company_id が設定されている場合は弾く
-    return unless user&.company_id.present?
-
-    # 同じ company_id が設定されている場合は再招待を許可する
-    return if user.company_id == current_user.company_id
-    redirect_to root_path, alert: "既に別の会社に所属しているユーザーです。"
+    if user&.company_id.present?
+      redirect_to root_path, alert: "既に会社に所属しているユーザーです。"
+    end
   end
 
-  def validate_email_for_invitation
-    user = User.new(email: invite_params[:email])
-    validator = AllowedDomainValidator.new(attributes: [ :email ])
-    validator.validate_each(user, :email, invite_params[:email])
-    user
+  def reject_admin_user!
+    user = User.find_by(email: invite_params[:email])
+
+    if user&.admin?
+      redirect_to root_path, alert: "管理者ユーザーには招待メールを送信できません。"
+    end
   end
 
   def validate_email!
-    self.resource = validate_email_for_invitation
+    # 招待フォームでバリデーションエラーを表示するため、検証用の resource にエラーを保持する
+    self.resource = User.new(email: invite_params[:email])
+    validator = AllowedDomainValidator.new(attributes: [ :email ])
+    validator.validate_each(resource, :email, resource.email)
 
     return unless resource.errors[:email].any?
 
     render :new, status: :unprocessable_entity
+  end
+
+  def find_invited_user
+    # 有効な招待リンクをもつユーザーを探す
+    User.find_by_invitation_token(params[:invitation_token], true)
+  end
+
+  def accept_invitation_for_existing_user(user)
+    # バリデーションやコールバックを避けるため update_columns を使用
+    user.update_columns(
+      company_id: user.invited_by.company_id,
+      invitation_accepted_at: Time.current,
+      invitation_token: nil,
+      invited_by_only: false
+    )
+
+    sign_in(user)
+    redirect_to root_path, notice: "自社情報が紐づけられました。"
   end
 end
