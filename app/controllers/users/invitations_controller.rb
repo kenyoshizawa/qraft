@@ -2,6 +2,7 @@ class Users::InvitationsController < Devise::InvitationsController
   after_action :verify_authorized, only: %i[ new create ]
   before_action :require_admin!, only: %i[ new create ]
   before_action :reject_company_user!, only: %i[ create ]
+  before_action :reject_admin_user!, only: %i[ create ]
 
   skip_before_action :authenticate_user!, only: %i[ edit update ]
   skip_before_action :require_no_authentication, only: %i[ edit update ]
